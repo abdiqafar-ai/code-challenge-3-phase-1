@@ -6,6 +6,7 @@ function fetchAllFilms() {
     fetch('http://localhost:3000/films')
         .then(response => response.json())
         .then(allMovies => {
+            console.log(allMovies)
             renderFilmList(allMovies);
             if (allMovies.length > 0) {
                 fetchFilmDetails(allMovies[0].id);
@@ -17,6 +18,7 @@ function fetchFilmDetails(filmId) {
     fetch(`http://localhost:3000/films/${filmId}`)
         .then(response => response.json())
         .then(selectedMovie => {
+            console.log(selectedMovie)
             displayFilmDetails(selectedMovie);
         });
 }
@@ -28,25 +30,37 @@ function displayFilmDetails(film) {
 
     const posterImage = document.querySelector('#poster');
     posterImage.src = film.poster;
+    console.log(film.poster);
 
     const filmTitle = document.querySelector('#title');
     filmTitle.textContent = film.title;
+    console.log(film.title);
 
     const filmDuration = document.querySelector('#runtime');
     filmDuration.textContent = `${film.runtime} minutes`;
+    console.log(film.runtime);
 
     const filmDescription = document.querySelector('#film-info');
     filmDescription.textContent = film.description;
+    console.log(film.description);
 
     const filmShowtime = document.querySelector('#showtime');
     filmShowtime.textContent = film.showtime;
+    console.log(film.showtime)
+    
 
     const availableTicketCount = document.querySelector('#ticket-num');
     availableTicketCount.textContent = `${availableTickets} remaining tickets`;
+    console.log(availableTicketCount);
 
     const buyTicketButton = document.querySelector('#buy-ticket');
     buyTicketButton.disabled = availableTickets <= 0;
-    buyTicketButton.textContent = availableTickets > 0 ? 'Buy Ticket' : 'Sold Out';
+    if (availableTickets > 0) {
+        buyTicketButton.textContent = 'Buy Ticket';
+    } else {
+        buyTicketButton.textContent = 'Sold Out';
+    }
+    
 
     
     buyTicketButton.dataset.filmId = film.id;
